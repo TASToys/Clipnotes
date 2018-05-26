@@ -6,7 +6,7 @@ require 'sequel'
 require 'pg'
 require 'rest-client'
 require 'oj'
-require_relative 'config.rb'
+require_relative 'defaults.rb'
 @uptime = nil
 
 def livetime
