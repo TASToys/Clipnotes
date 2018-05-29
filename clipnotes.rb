@@ -7,6 +7,7 @@ require 'pg'
 require 'rest-client'
 require 'oj'
 require_relative 'defaults.rb'
+require_relative 'plugins/http_server'
 @uptime = nil
 
 def livetime
@@ -18,7 +19,7 @@ def livetime
 	uptime = Time.at(mathtime).utc.strftime("%H:%M:%S")
 end
 
-class Clip
+class Mark
 	include Cinch::Plugin
 	include Cinch::Commands
 
@@ -31,7 +32,7 @@ class Clip
 	def mark(m,arg1)
 		db = Sequel.connect("postgres://#{configatron.sql.user}:#{configatron.sql.pass}@localhost:5432/clipnotes")
 		markers = db.from(:markers)
-		clipnote = arg1.to_s
+		clipnote = "#{arg1}"
 		clipuser = m.user.nick
 		cliptime = livetime
 		attime = Time.now.to_s
@@ -45,7 +46,7 @@ bot = Cinch::Bot.new do
 		c.server = "irc.chat.twitch.tv"
 		c.password = configatron.twitch.oauth
 		c.channels = [configatron.twitch.irc]
-		c.plugins.plugins = [Clip]
+		c.plugins.plugins = [Mark]
 		c.user = configatron.irc.nick
 		c.nick = configatron.irc.nick
   end
