@@ -33,16 +33,21 @@ class Mark
 	}
 
 	def clip(m, arg1)
-		db = Sequel.connect("postgres://#{configatron.sql.user}:#{configatron.sql.pass}@localhost:5432/clipnotes")
+		if arg1 == "help"
+			m.reply "{m.user.nick}, To make a marker for a highlight do: !clip <something noteworthy that happened.>"
 
-		markers = db.from(:markers)
-		clipnote = arg1
-		clipuser = m.user.nick
-		cliptime = livetime
-		attime = Time.now.to_s
-		m.reply "#{m.user.nick}, A marker was created at #{cliptime} for \"#{clipnote}\"."
+		else
+			db = Sequel.connect("postgres://#{configatron.sql.user}:#{configatron.sql.pass}@localhost:5432/clipnotes")
 
-		markers.insert(user: clipuser, note: clipnote, uptime: cliptime, created_at: attime, updated_at: attime)
+			markers = db.from(:markers)
+			clipnote = arg1
+			clipuser = m.user.nick
+			cliptime = livetime
+			attime = Time.now.to_s
+			m.reply "#{m.user.nick}, A marker was created at #{cliptime} for \"#{clipnote}\"."
+
+			markers.insert(user: clipuser, note: clipnote, uptime: cliptime, created_at: attime, updated_at: attime)
+		end
 	end
 end
 
