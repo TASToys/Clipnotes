@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'configatron'
 require 'pg'
 require 'sequel'
