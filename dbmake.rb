@@ -11,5 +11,5 @@ DB.create_table :markers do
 	String :user
 	String :note
 	String :uptime
-	datetime :created_at
+	timestamp :created_at
 end
